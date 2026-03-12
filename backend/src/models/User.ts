@@ -43,8 +43,8 @@ UserSchema.methods.comparePassword = function (candidate: string) {
 // Strip password from JSON responses
 UserSchema.set('toJSON', {
   transform: (_doc, ret) => {
-    delete ret.password;
-    return ret;
+    const { password: _, ...rest } = ret;
+    return rest;
   },
 });
 
