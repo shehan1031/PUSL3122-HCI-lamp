@@ -1,26 +1,73 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --bg:   #0f0e0c;
+    --s:    #181714;
+    --s2:   #221f1b;
+    --s3:   #2d2925;
+    --b:    #3a342e;
+    --bs:   #2a2520;
+    --gold: #c9a96e;
+    --gl:   #e8c98a;
+    --gd:   #7a6340;
+    --cr:   #f5efe6;
+    --t:    #ede8df;
+    --tm:   #7d7468;
+    --ts:   #b0a898;
+    --ok:   #6dbf8a;
+    --er:   #e07070;
+    --tl:   #4ecdc4;
+    --ro:   #e8927c;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--t); -webkit-font-smoothing: antialiased; }
+
+::-webkit-scrollbar          { width: 4px; }
+::-webkit-scrollbar-track    { background: transparent; }
+::-webkit-scrollbar-thumb    { background: var(--b); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gd); }
+
+input[type=range] { -webkit-appearance: none; appearance: none; height: 3px; background: var(--s3); border-radius: 2px; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--gold); cursor: pointer; }
+
+input[type=color] { -webkit-appearance: none; padding: 2px; border-radius: 4px; border: 1px solid var(--b); background: transparent; cursor: pointer; }
+input[type=color]::-webkit-color-swatch-wrapper { padding: 2px; }
+input[type=color]::-webkit-color-swatch { border: none; border-radius: 2px; }
+
+.canvas-grid {
+    background-image:
+            linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
+.animate-fade-up { animation: fadeUp .4s ease forwards; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+    .inp {
+        @apply w-full bg-surface2 border border-border rounded-lg px-3 py-2 text-sm text-cream outline-none transition-colors font-mono;
+    }
+    .inp:focus { border-color: var(--gd); }
+
+    .btn-gold {
+        @apply px-4 py-2 bg-gold text-bg text-sm font-semibold rounded-lg transition-all cursor-pointer;
+    }
+    .btn-gold:hover { background: var(--gl); }
+
+    .btn-outline {
+        @apply px-3 py-2 text-sm border border-border rounded-lg transition-all cursor-pointer bg-transparent;
+        color: var(--tm);
+    }
+    .btn-outline:hover { color: var(--cr); border-color: var(--gd); }
+
+    .card {
+        @apply bg-surface border border-border rounded-xl p-5;
+    }
 }
