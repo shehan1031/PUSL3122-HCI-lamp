@@ -73,20 +73,6 @@ export default function LoginPage() {
                         {loading ? 'Signing in…' : 'Sign In to Studio'}
                     </button>
 
-                    {/* Demo credentials */}
-                    <div className="mt-4 p-3 bg-surface2 rounded-lg border border-[--bs] text-xs text-[--tm] font-mono space-y-1">
-                        <p className="font-semibold not-italic text-[--ts] mb-1">Demo Credentials</p>
-                        <p className="cursor-pointer hover:text-cream transition-colors"
-                           onClick={() => setForm({ email: 'designer@lamp.studio', password: 'demo1234' })}>
-                            designer@lamp.studio / demo1234
-                        </p>
-                        <p className="cursor-pointer hover:text-cream transition-colors"
-                           onClick={() => setForm({ email: 'admin@lamp.studio', password: 'admin1234' })}>
-                            admin@lamp.studio / admin1234
-                        </p>
-                        <p className="text-[9px] opacity-60 mt-1">↑ click to auto-fill</p>
-                    </div>
-
                     {/* Link to register */}
                     <p className="text-center text-xs text-[--tm] mt-5">
                         No account?{' '}

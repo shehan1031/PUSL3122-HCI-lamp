@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { designAPI, getUser } from "@/lib/client";
@@ -56,9 +56,22 @@ export default function StudioWorkspace() {
   const [showNewModal, setShowNewModal] = useState(false);
   const [newForm,      setNewForm]      = useState({ client:"", roomType:"Living Room", shape:"Rectangle" });
   const [treeOpen,     setTreeOpen]     = useState<Record<string,boolean>>({});
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const d = designs[activeIdx];
   const selectedItem = d?.furniture.find(f => (f._id||f.id) === selectedId);
+
+  // ── Close user menu when clicking outside ──────────────────
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setShowUserMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // ── Bootstrap ──────────────────────────────────────────────
   useEffect(() => {
@@ -188,8 +201,6 @@ export default function StudioWorkspace() {
   }
 
   function logout() {
-    const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-    fetch(`${API}/api/auth/logout`, { method:"POST", credentials:"include" });
     localStorage.removeItem("lamp_token");
     localStorage.removeItem("lamp_user");
     router.push("/login");
@@ -202,7 +213,7 @@ export default function StudioWorkspace() {
       if (e.ctrlKey && e.key==="z") { e.preventDefault(); undo(); }
       if (e.ctrlKey && e.key==="s") { e.preventDefault(); saveDesign(); }
       if (e.key==="Delete" && selectedId) deleteSelected();
-      if (e.key==="Escape") setSelectedId(null);
+      if (e.key==="Escape") { setSelectedId(null); setShowUserMenu(false); }
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
@@ -253,25 +264,35 @@ export default function StudioWorkspace() {
             💾 {saving?"Saving…":"Save"}
           </button>
           <div className="w-px h-5 bg-border"/>
-          {/* Avatar */}
-          <div className="relative group">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-[--ro] flex items-center justify-center text-xs font-bold text-bg cursor-pointer select-none">
+
+          {/* Avatar — click to toggle menu */}
+          <div className="relative" ref={userMenuRef}>
+            <button
+              onClick={() => setShowUserMenu(v => !v)}
+              className="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-[--ro] flex items-center justify-center text-xs font-bold text-bg cursor-pointer select-none hover:opacity-80 transition-opacity">
               {user?.name?.split(" ").map((n: string) => n[0]).join("") || "AC"}
-            </div>
-            <div className="absolute right-0 top-full mt-2 w-48 bg-surface2 border border-border rounded-xl shadow-2xl py-1 invisible group-hover:visible z-50">
-              <div className="px-3 py-2 border-b border-border">
-                <p className="text-xs font-medium text-cream">{user?.name}</p>
-                <p className="text-[10px] text-[--tm] capitalize">{user?.role}</p>
-              </div>
-              {user?.role==="admin" && (
-                <button onClick={() => router.push("/admin")} className="w-full text-left px-3 py-2 text-xs text-[--tm] hover:text-cream hover:bg-surface3 transition-colors">
-                  ⚡ Admin Panel
+            </button>
+
+            {showUserMenu && (
+              <div className="absolute right-0 top-full mt-2 w-48 bg-surface2 border border-border rounded-xl shadow-2xl py-1 z-50">
+                <div className="px-3 py-2 border-b border-border">
+                  <p className="text-xs font-medium text-cream">{user?.name}</p>
+                  <p className="text-[10px] text-[--tm] capitalize">{user?.role}</p>
+                </div>
+                {user?.role === "admin" && (
+                  <button
+                    onClick={() => { setShowUserMenu(false); router.push("/admin"); }}
+                    className="w-full text-left px-3 py-2 text-xs text-[--tm] hover:text-cream hover:bg-surface3 transition-colors">
+                    ⚡ Admin Panel
+                  </button>
+                )}
+                <button
+                  onClick={() => { setShowUserMenu(false); logout(); }}
+                  className="w-full text-left px-3 py-2 text-xs text-[--tm] hover:text-cream hover:bg-surface3 transition-colors">
+                  Sign Out
                 </button>
-              )}
-              <button onClick={logout} className="w-full text-left px-3 py-2 text-xs text-[--tm] hover:text-cream hover:bg-surface3 transition-colors">
-                Sign Out
-              </button>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -286,7 +307,6 @@ export default function StudioWorkspace() {
             <button onClick={() => setShowNewModal(true)} className="text-[10px] text-[--tm] hover:text-gold border border-border rounded px-1.5 py-0.5 transition-colors">+</button>
           </div>
           <div className="flex-1 overflow-y-auto py-1 px-1">
-            {/* Portfolio root */}
             <div className="flex items-center gap-1.5 px-2 py-1.5 cursor-pointer hover:bg-surface2 rounded-md"
               onClick={() => setTreeOpen(t => ({ ...t, root:!t.root }))}>
               <span className={`text-[9px] text-[--tm] transition-transform ${!treeOpen.root?"rotate-90":""}`}>▶</span>
@@ -340,7 +360,6 @@ export default function StudioWorkspace() {
 
         {/* CENTER — Canvas */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Canvas toolbar */}
           <div className="h-10 bg-surface border-b border-border flex items-center px-3 gap-1 flex-shrink-0">
             <button onClick={() => setZoom(z => Math.min(z*1.2,3))} className="w-7 h-7 flex items-center justify-center rounded text-[--tm] hover:bg-surface2 hover:text-cream text-lg">+</button>
             <button onClick={() => setZoom(z => Math.max(z/1.2,.3))} className="w-7 h-7 flex items-center justify-center rounded text-[--tm] hover:bg-surface2 hover:text-cream text-lg">−</button>
@@ -358,7 +377,6 @@ export default function StudioWorkspace() {
             </span>
           </div>
 
-          {/* Canvas */}
           {view==="2d" ? (
             <Canvas2D
               design={d}
@@ -376,7 +394,6 @@ export default function StudioWorkspace() {
             />
           )}
 
-          {/* Status bar */}
           <div className="h-7 bg-surface border-t border-border flex items-center px-4 gap-3 text-[10px] text-[--tm] font-mono flex-shrink-0">
             <span>Items: <b className="text-[--ts] font-normal">{d?.furniture.length||0}</b></span>
             <span>Room: <b className="text-[--ts] font-normal">{d?.roomWidth}×{d?.roomLength}m</b></span>
@@ -391,8 +408,6 @@ export default function StudioWorkspace() {
 
         {/* RIGHT PANEL — Properties */}
         <aside className="w-64 bg-surface border-l border-border flex flex-col overflow-y-auto flex-shrink-0">
-
-          {/* Room specs */}
           <div className="border-b border-[--bs] px-4 py-3">
             <p className="text-[10px] font-semibold tracking-widest uppercase text-[--tm] mb-3">🏠 Room</p>
             <div className="grid grid-cols-3 gap-1 mb-3">
@@ -427,7 +442,6 @@ export default function StudioWorkspace() {
             </div>
           </div>
 
-          {/* Furniture palette */}
           <div className="border-b border-[--bs] px-4 py-3">
             <p className="text-[10px] font-semibold tracking-widest uppercase text-[--tm] mb-3">🛋️ Furniture</p>
             <div className="grid grid-cols-2 gap-1.5">
@@ -441,7 +455,6 @@ export default function StudioWorkspace() {
             </div>
           </div>
 
-          {/* Selected item properties */}
           {selectedItem && (
             <div className="border-b border-[--bs] px-4 py-3">
               <p className="text-[10px] font-semibold tracking-widest uppercase text-[--tm] mb-3">✦ Selected</p>
@@ -485,7 +498,6 @@ export default function StudioWorkspace() {
             </div>
           )}
 
-          {/* Actions */}
           <div className="px-4 py-3">
             <p className="text-[10px] font-semibold tracking-widest uppercase text-[--tm] mb-3">📐 Actions</p>
             {[
