@@ -46,7 +46,7 @@ export default function LoginPage() {
                     <Link href="/">
                         <h1 className="font-display italic text-6xl text-gold mb-2 cursor-pointer hover:opacity-80 transition-opacity">lamp</h1>
                     </Link>
-                    <p className="text-xs text-[--tm] tracking-widest uppercase">Interior Design Studio · Three.js 3D</p>
+                    <p className="text-xs text-[--tm] tracking-widest uppercase">Interior Design Studio </p>
                 </div>
 
                 <div className="bg-surface border border-border rounded-2xl p-8 shadow-2xl">
