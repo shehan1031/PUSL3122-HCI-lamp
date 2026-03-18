@@ -22,18 +22,18 @@ cd ../frontend
 npm install --legacy-peer-deps
 ```
 
-### Environment Setup
+#Environment Setup
 
-Create a `.env` file inside the `backend/` folder:
+#Create a `.env` file inside the `backend/` folder:
 ```
-PORT=4000
+#PORT=4000
 MONGODB_URI=mongodb://localhost:27017/lamp-studio
 JWT_SECRET=lamp-secret
 FRONTEND_URL=http://localhost:3000
 NODE_ENV=development
 ```
 
-Create a `.env.local` file inside the `frontend/` folder:
+#Create a `.env.local` file inside the `frontend/` folder:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:4000
 Running the Application
@@ -48,7 +48,7 @@ Frontend runs at http://localhost:3000
 Backend runs at http://localhost:4000
  
 
-Technology Stack
+#Technology Stack
 LayerTechnologyFrontendNext.js 14 / React 18 / TypeScriptStylingTailwind CSS2D CanvasHTML Canvas API3D RenderingThree.js / @react-three/fiber3D Helpers@react-three/drei / @react-three/postprocessingBackendNode.js / Express.js 4DatabaseMongoDB / MongooseAuthenticationbcryptjs / jsonwebtokenSecurityHelmet / CORS / express-rate-limit
 
 Additional Resources & Credits
@@ -85,7 +85,7 @@ LAMP Studio does not use any audio or sound effects.
 
 Module
 PUSL3122 — Human Computer Interaction
-Plymouth University Sri Lanka
+Plymouth University
 
 License
 This project was developed for academic purposes as part of the PUSL3122 HCI coursework.
