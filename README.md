@@ -9,10 +9,7 @@ MongoDB running locally or a MongoDB Atlas connection string
 npm package manager
 
 Installation
-bash# Clone the repository
-git clone https://github.com/YOUR_USERNAME/PUSL3122-HCI-LAMP-STUDIO.git
-cd PUSL3122-HCI-LAMP-STUDIO
-
+ 
 # Install backend dependencies
 cd backend
 npm install
