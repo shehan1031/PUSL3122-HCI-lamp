@@ -51,37 +51,8 @@ bashcd backend
 npm run seed
 ```
 
-**Demo login credentials after seeding:**
-
-| Role | Email | Password |
-|---|---|---|
-| Admin | admin@lamp.studio | admin1234 |
-| Designer | designer@lamp.studio | demo1234 |
-
----
-
-## Project Structure
-```
-PUSL3122-HCI-LAMP-STUDIO/
-├── frontend/
-│   ├── app/
-│   │   ├── admin/          — Admin panel page
-│   │   ├── dashboard/      — Designer studio page
-│   │   ├── login/          — Login page
-│   │   ├── register/       — Register page
-│   │   ├── components/     — Reusable UI components
-│   │   ├── lib/            — API client utilities
-│   │   └── types/          — TypeScript interfaces
-│   ├── tailwind.config.ts
-│   └── next.config.js
-└── backend/
-    ├── src/
-    │   ├── config/         — Database connection
-    │   ├── controllers/    — Route logic
-    │   ├── middleware/      — Auth and error handling
-    │   ├── models/         — Mongoose schemas
-    │   └── routes/         — API endpoints
-    └── scripts/            — Seed script
+ 
+ 
 
 Technology Stack
 LayerTechnologyFrontendNext.js 14 / React 18 / TypeScriptStylingTailwind CSS2D CanvasHTML Canvas API3D RenderingThree.js / @react-three/fiber3D Helpers@react-three/drei / @react-three/postprocessingBackendNode.js / Express.js 4DatabaseMongoDB / MongooseAuthenticationbcryptjs / jsonwebtokenSecurityHelmet / CORS / express-rate-limit
@@ -120,7 +91,7 @@ LAMP Studio does not use any audio or sound effects.
 
 Module
 PUSL3122 — Human Computer Interaction
-Plymouth University Sri Lanka
+Plymouth University 
 
 License
 This project was developed for academic purposes as part of the PUSL3122 HCI coursework.
