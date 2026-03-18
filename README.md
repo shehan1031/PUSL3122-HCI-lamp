@@ -46,12 +46,6 @@ cd frontend
 npm run dev
 Frontend runs at http://localhost:3000
 Backend runs at http://localhost:4000
-Seed Demo Data
-bashcd backend
-npm run seed
-```
-
- 
  
 
 Technology Stack
@@ -91,7 +85,7 @@ LAMP Studio does not use any audio or sound effects.
 
 Module
 PUSL3122 — Human Computer Interaction
-Plymouth University 
+Plymouth University Sri Lanka
 
 License
 This project was developed for academic purposes as part of the PUSL3122 HCI coursework.
