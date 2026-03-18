@@ -35,12 +35,16 @@ NODE_ENV=development
 NEXT_PUBLIC_API_URL=http://localhost:4000
 Running the Application
 bash# Terminal 1 — Start backend
+
 cd backend
+
 npm run dev
 
 # Terminal 2 — Start frontend
 cd frontend
+
 npm run dev
+
 Frontend runs at http://localhost:3000
 Backend runs at http://localhost:4000
  
